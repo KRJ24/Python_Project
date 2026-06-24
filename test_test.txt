@@ -1,1 +1,4 @@
 1. Testing or checking git capability to detect changes 
+2. Newly added line
+3. Newly added line
+4. Newly added line
