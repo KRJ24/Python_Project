@@ -1,1 +1,5 @@
 1. Testing or checking git capability to detect changes 
+Checking if the icon will change or not ?
+
+checking stash
+
