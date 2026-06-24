@@ -2,7 +2,7 @@ import requests
 import time
 import pandas as pd
 df=pd.read_csv(r"C:\Users\2410k\Downloads\hashes.csv")
-headers={'x-apikey':'423feed2b74c6c5e14b1a147ac3f9e125ee3a573a217de12a51c3ea768de14dd'}
+headers={'x-apikey':''}
 
 def hash_fn(hash_val):
     url=f'https://www.virustotal.com/api/v3/files/{hash_val.strip()}'
