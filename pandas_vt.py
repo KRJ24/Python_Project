@@ -1,5 +1,4 @@
 import requests
-import time
 import pandas as pd
 df=pd.read_csv(r"C:\Users\2410k\Downloads\hashes.csv")
 headers={'x-apikey':''}
@@ -13,6 +12,7 @@ def hash_fn(hash_val):
         stats=data['data']['attributes']['last_analysis_stats']
         stats1=data['data']['attributes']['names']
         code_stat=(response.status_code)
+        #print(code_stat)
         if code_stat == 200:
             for items in stats1:
                 file_name=items
@@ -24,11 +24,10 @@ def hash_fn(hash_val):
                 sus_count=stats['suspicious']
                 undetect_count=stats['undetected']
                 break    
-        return {'name':file_name,'malcount': mal_count,'suspicious': sus_count,'undetected':undetect_count}    
-    except Exception as e:
-        except_raw= {'error':f'Unexpected error for {hash_val}, error returned = {e}\n'}
+        return {'Hash_value':hash_val.strip(),'name':file_name,'malcount': mal_count,'suspicious': sus_count,'undetected':undetect_count}    
+    except:
+        except_raw= { 'Hash_value': hash_val.strip(),'name': 'ERROR','malcount': 'ERROR','suspicious': 'ERROR','undetected': 'ERROR'}
         return except_raw
-    time.sleep(5)
     #print(type(stats))
 
 def read_df(df):
@@ -39,7 +38,7 @@ def read_df(df):
     return output_list
 
 out_dict=read_df(df)
-
+hash_list=[]
 name_list=[]
 mal_list=[]
 sus_list=[]
@@ -47,6 +46,8 @@ und_list=[]
 for items in out_dict:
     for key, value in items.items():
         #print(key)
+        if key=='Hash_value':
+            hash_list.append(items[key])
         if key=='name':
             name_list.append(items[key])
         elif key=='malcount':
@@ -55,7 +56,10 @@ for items in out_dict:
             sus_list.append(items[key])
         elif key=='undetected':
             und_list.append(items[key])
-final_out=pd.DataFrame({"Filename":name_list,'Malicious count':mal_list,'Suspicious Count':sus_list,'Undetected count':und_list})
+
+#print(hash_list,name_list,mal_list,sus_list,und_list)
+final_out=pd.DataFrame({'Hash_value':hash_list,"Filename":name_list,'Malicious count':mal_list,'Suspicious Count':sus_list,'Undetected count':und_list})
 final_out.to_csv(r"C:\Users\2410k\Downloads\Hash_Validation_final_output.csv",index=False)
 print(r"Kindly find the hash Validation output file in the location => C:\Users\2410k\Downloads\Hash_Validation_final_output.csv ")
 
+   
